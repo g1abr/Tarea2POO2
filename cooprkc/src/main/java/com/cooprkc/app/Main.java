@@ -18,7 +18,7 @@ public class Main {
             try {
                 switch (opcion) {
                     case 1 -> registrarSocio();
-                    case 2 -> cooperativa.listarSociosConStream();
+                    case 2 -> cooperativa.listarSocios();
                     case 3 -> abrirCuentaSocio();
                     case 4 -> realizarDeposito();
                     case 5 -> realizarRetiro();
@@ -30,16 +30,14 @@ public class Main {
                     case 11 -> contarTotalCuentas();
                     case 12 -> consultarSaldoTotalSocio();
                     case 13 -> buscarSocioPorCedula();
-                    case 0 -> System.out.println(" Saliendo del sistema. ¡Hasta luego!");
+                    case 0 -> System.out.println(" Saliendo del sistema.");
                     default -> System.out.println("Opción inválida. Intente de nuevo.");
                 }
             } catch (Exception e) {
-                System.err.println("⚠ Error: " + e.getMessage());
+                System.err.println("Se presentaron errores inesperados: " + e.getMessage());
             }
         } while (opcion != 0);
     }
-
-
 
     private static void registrarSocio() {
         String nombre = leerTexto("Ingrese nombre del socio: ");
@@ -55,11 +53,12 @@ public class Main {
             CuentaAhorros cuenta = new CuentaAhorros(numeroCuenta, 0.0);
             try {
                 socio.abrirCuenta(cuenta);
-                System.out.println("✅ Cuenta creada exitosamente.");
+                System.out.println("\n");
+                System.out.println("La cuenta fue creada con éxito.");
             } catch (Exception e) {
-                System.err.println("❌ " + e.getMessage());
+                System.err.println("Hubo un error al crear la cuenta" + e.getMessage());
             }
-        }, () -> System.out.println("⚠ No existe socio con esa cédula."));
+        }, () -> System.out.println("No existe socio con esa cédula"));
     }
 
     private static void realizarDeposito() {
@@ -70,11 +69,11 @@ public class Main {
                     .filter(c -> c.getNumeroCuenta().equals(numeroCuenta))
                     .findFirst()
                     .ifPresentOrElse(cuenta -> {
-                        double monto = leerDouble("Ingrese monto a depositar: ");
+                        double monto = leerDouble("Ingrese monto para depositar: ");
                         Transaccion deposito = new Deposito(cuenta, monto);
                         deposito.ejecutar();
-                    }, () -> System.out.println("⚠ Cuenta no encontrada."));
-        }, () -> System.out.println("⚠ No existe socio con esa cédula."));
+                    }, () -> System.out.println("Cuenta no encontrada."));
+        }, () -> System.out.println("No existe socio con esa cédula."));
     }
 
     private static void realizarRetiro() {
@@ -88,27 +87,27 @@ public class Main {
                         double monto = leerDouble("Ingrese monto a retirar: ");
                         Transaccion retiro = new Retiro(cuenta, monto);
                         retiro.ejecutar();
-                    }, () -> System.out.println("⚠ Cuenta no encontrada."));
-        }, () -> System.out.println("⚠ No existe socio con esa cédula."));
+                    }, () -> System.out.println("Cuenta no encontrada."));
+        }, () -> System.out.println("No existe socio con esa cédula."));
     }
 
     private static void aplicarInteresCuentas() {
         cooperativa.getSocios().forEach(socio -> socio.getCuentas().forEach(cuenta -> {
             if (cuenta instanceof CuentaAhorros ahorro) {
                 ahorro.aplicarInteres();
-                System.out.println("✅ Interés aplicado a " + ahorro.getNumeroCuenta());
+                System.out.println("Interés aplicado a " + ahorro.getNumeroCuenta());
             }
         }));
     }
 
     private static void filtrarCuentasPorSaldo() {
-        System.out.println("\n=== CUENTAS CON SALDO MAYOR A $500,000 ===");
+        System.out.println("\n Cuentas mayores a $500,000 ");
         cooperativa.filtrarCuentasConSaldoMayorA(500000);
     }
 
     private static void mostrarSumaTotalSaldos() {
         double total = cooperativa.obtenerSumaTotalSaldos();
-        System.out.println("💰 Suma total de saldos en la cooperativa: $" + total);
+        System.out.println("Suma total de saldos en la cooperativa: $" + total);
     }
 
     private static void mostrarTodasLasCuentas() {
@@ -118,23 +117,21 @@ public class Main {
 
     private static void contarTotalCuentas() {
         long total = cooperativa.contarTotalCuentas();
-        System.out.println("🔢 Total de cuentas en la cooperativa: " + total);
+        System.out.println("Total de cuentas en la cooperativa: " + total);
     }
 
     private static void consultarSaldoTotalSocio() {
         String cedula = leerTexto("Ingrese cédula del socio: ");
         cooperativa.buscarSocioPorCedula(cedula).ifPresentOrElse(socio -> {
             System.out.println("Socio " + socio.getNombre() + " - Saldo total: $" + socio.getSaldoTotal());
-        }, () -> System.out.println("⚠ No existe socio con esa cédula."));
+        }, () -> System.out.println("No existe socio con esa cédula."));
     }
 
     private static void buscarSocioPorCedula() {
         String cedula = leerTexto("Ingrese cédula a buscar: ");
         cooperativa.buscarSocioPorCedula(cedula).ifPresentOrElse(System.out::println,
-                () -> System.out.println("⚠ No existe socio con esa cédula."));
+                () -> System.out.println("No existe socio con esa cédula."));
     }
-
-    // ===================== UTILIDADES =====================
 
     private static void mostrarMenu() {
         System.out.println("\n=== MENÚ PRINCIPAL - COOPERATIVA COOPRKC");

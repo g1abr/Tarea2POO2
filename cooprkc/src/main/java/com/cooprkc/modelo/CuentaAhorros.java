@@ -1,8 +1,8 @@
 package com.cooprkc.modelo;
 
+//clase hija
 public class CuentaAhorros extends Cuenta {
     private double interes;
-    // Constructor vacío
 
     public CuentaAhorros() {
         super();
@@ -46,7 +46,7 @@ public class CuentaAhorros extends Cuenta {
     @Override
     public String toString() {
         return "Cuenta de Ahorros #" + numeroCuenta +
-                "  Saldo: " + saldo +
+                "  Saldo: " + String.format("$%,.2f", saldo) +
                 "  Interés: " + (interes * 100) + "%";
     }
 

@@ -31,7 +31,7 @@ public class Retiro implements Transaccion {
             }
 
         
-            if (monto > 5000000) { // Límite de 5 millones por retiro
+            if (monto > 5000000) { 
                 throw new IllegalArgumentException("El monto excede el límite máximo de retiro de $5,000,000");
             }
 
