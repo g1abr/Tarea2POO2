@@ -39,7 +39,7 @@ public class Main {
         } while (opcion != 0);
     }
 
-    // ===================== MÉTODOS DEL MENÚ =====================
+
 
     private static void registrarSocio() {
         String nombre = leerTexto("Ingrese nombre del socio: ");
