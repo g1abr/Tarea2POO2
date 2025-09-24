@@ -1,6 +1,9 @@
 package com.cooprkc.modelo;
 
-public class Cuenta {
+import java.util.Objects;
+
+/** Super Clase* */
+public abstract class Cuenta {
     protected String numeroCuenta;
     protected double saldo;
 
@@ -9,19 +12,61 @@ public class Cuenta {
         this.saldo = saldoInicial;
     }
 
+    public Cuenta() {
+        this.numeroCuenta = "";
+        this.saldo = 0.0;
+    }
+
     public void depositar(double monto) {
+        if (monto <= 0) {
+            throw new IllegalArgumentException("El monto ingresado es negativo");
+        }
         saldo += monto;
     }
 
-    public void retirar(double monto) throws Exception {
-        if (saldo < monto) {
-            throw new Exception("Saldo insuficiente.");
+    public void retirar(double monto) {
+        if (monto <= 0) {
+            throw new IllegalArgumentException("El monto del retiro debe ser mayor que 0");
+        }
+        if (monto > saldo) {
+            throw new IllegalStateException("Saldo insuficiente. Saldo actual: " + saldo);
         }
         saldo -= monto;
     }
 
-    public String getNumeroCuenta() { return numeroCuenta; }
-    public double getSaldo() { return saldo; }
+    public abstract void aplicarInteres();
+
+    public String getNumeroCuenta() {
+        return numeroCuenta;
+    }
+
+    public void setNumeroCuenta(String numeroCuenta) {
+        this.numeroCuenta = numeroCuenta;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    /* Validación para no repetir cuentas */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Cuenta cuenta = (Cuenta) o;
+        return Objects.equals(numeroCuenta, cuenta.numeroCuenta);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(numeroCuenta);
+    }
 
     @Override
     public String toString() {
