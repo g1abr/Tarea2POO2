@@ -47,9 +47,7 @@ public class Cooperativa {
 
     // ================= PROGRAMACIÓN FUNCIONAL CON STREAMS =================
 
-    /**
-     * Listar socios registrados usando stream() y forEach (Requerimiento)
-     */
+
     public void listarSociosConStream() {
         System.out.println("\n=== SOCIOS (USANDO STREAM + FOREACH) ===");
 
@@ -58,10 +56,6 @@ public class Cooperativa {
                 .forEach(System.out::println);
     }
 
-    /**
-     * Filtrar cuentas con saldo mayor a un valor específico usando stream()
-     * (Requerimiento)
-     */
     public void filtrarCuentasConSaldoMayorA(double saldoMinimo) {
         System.out.println("\n=== CUENTAS CON SALDO > " + String.format("$%,.2f", saldoMinimo) + " (FILTER) ===");
 
